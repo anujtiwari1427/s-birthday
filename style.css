@@ -1087,6 +1087,18 @@ section { padding: 100px 20px; position: relative; }
   .message-card { padding: 28px 20px; }
   .hero-btn { padding: 14px 30px; font-size: 0.9rem; }
 }
+@media (max-width: 480px) {
+  .stats-grid    { grid-template-columns: 1fr; }
+  .hero-photo { width: 180px; height: 230px; }
+  .section-title { font-size: 2rem; }
+  .footer-photo-strip img { width: 55px; height: 55px; }
+}
+@media (max-width: 400px) {
+  .cake-container { transform: scale(0.75); transform-origin: top center; margin-bottom: 0; }
+  .footer-photo-strip img { width: 45px; height: 45px; }
+  .hero-name { font-size: 4.5rem; }
+  .music-btn { padding: 10px 14px; font-size: 0.8rem; }
+}
 
 /* Custom scrollbar */
 ::-webkit-scrollbar { width: 6px; }
