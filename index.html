@@ -33,7 +33,7 @@
         <span class="age-text">Years Young</span>
       </div>
       <p class="hero-date animate-fade-up delay-3">🎀 July 4th, 2026 🎀</p>
-      <h2 class="hero-wish animate-fade-up delay-4">Happy Birthday, Beautiful! 🎂</h2>
+      <h2 class="hero-wish animate-fade-up delay-4">Happy Birthday, my friend! 🎂</h2>
       <div class="hero-divider animate-fade-up delay-5">
         <span>🌸</span><span class="line"></span><span>💖</span><span class="line"></span><span>🌸</span>
       </div>
@@ -44,7 +44,10 @@
     <!-- Hero floating photo -->
     <div class="hero-photo-frame animate-float">
       <div class="photo-glow"></div>
-      <img src="images/seher1.jpg" alt="Seher" class="hero-photo" />
+      <img src="images/seher1.jpg" alt="Seher" class="hero-photo slide slide1" />
+      <img src="images/seher2.png" alt="Seher" class="hero-photo slide slide2" />
+      <img src="images/seher3.jpg" alt="Seher" class="hero-photo slide slide3" />
+      <img src="images/seher4.png" alt="Seher" class="hero-photo slide slide4" />
       <div class="photo-ring"></div>
     </div>
 
@@ -70,17 +73,17 @@
       <div class="message-card">
         <div class="quote-mark">"</div>
         <p class="message-text">
-          Dear <strong>Seher</strong>, on this magical day, the world celebrates you — your kindness, your beauty, your laughter, and your incredible spirit. Nineteen years of making every moment sparkle! 🌟
+          Dear <strong>Seher</strong>, on this magical day, the world celebrates you — your kindness, your friendship, your laughter, and your incredible spirit. Nineteen years of making every moment sparkle! 🌟
         </p>
         <p class="message-text">
-          May this new chapter of your life be filled with extraordinary adventures, sweet memories, endless love, and all the happiness your heart can hold. You deserve the absolute best — always! 🌹
+          May this new chapter of your life be filled with extraordinary adventures, sweet memories, endless joy, and all the happiness your heart can hold. You deserve the absolute best — always! 🌹
         </p>
         <p class="message-text">
-          Here's to you, darling — the girl who lights up every room she walks into. Keep shining, keep smiling, and keep being the amazing person you are! 🎊
+          Here's to you, my friend — the girl who lights up every room she walks into. Keep shining, keep smiling, and keep being the amazing person you are! 🎊
         </p>
         <div class="message-footer">
-          <span class="heart-row">💖 💕 💝 💗 💓</span>
-          <p>With all the love in the world</p>
+          <span class="heart-row">✨ 🌟 💫 ⭐ ✨</span>
+          <p>With all my best wishes</p>
         </div>
       </div>
     </div>
@@ -274,7 +277,86 @@
     </div>
   </section>
 
-  <!-- ======================== FOOTER ======================== -->
+  <!-- ======================== GAMES ZONE SECTION ======================== -->
+  <section class="games-section" id="games">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-emoji">🎮</span>
+        <h2 class="section-title">Birthday Games Zone</h2>
+        <div class="title-underline"></div>
+        <p class="section-subtitle">Play these fun games made just for Seher's special day! 🎉</p>
+      </div>
+
+      <div class="games-grid">
+
+        <!-- ===== GAME 1: BALLOON POP ===== -->
+        <div class="game-card" id="game-balloon">
+          <div class="game-card-header">
+            <span class="game-icon">🎈</span>
+            <h3 class="game-title">Balloon Pop!</h3>
+            <p class="game-desc">Pop as many balloons as you can in 15 seconds! 🎯</p>
+          </div>
+          <div class="game-body">
+            <div class="balloon-scoreboard">
+              <span class="score-label">Score: <strong id="balloonScore">0</strong></span>
+              <span class="score-label">Time: <strong id="balloonTimer">15</strong>s</span>
+            </div>
+            <div class="balloon-arena" id="balloonArena"></div>
+            <button class="game-btn" id="balloonStartBtn" onclick="startBalloonGame()">🎈 Start Game!</button>
+          </div>
+        </div>
+
+        <!-- ===== GAME 2: BIRTHDAY QUIZ ===== -->
+        <div class="game-card" id="game-quiz">
+          <div class="game-card-header">
+            <span class="game-icon">🧁</span>
+            <h3 class="game-title">Birthday Quiz!</h3>
+            <p class="game-desc">Test how well you know birthday fun facts! 💛</p>
+          </div>
+          <div class="game-body">
+            <div id="quizArea">
+              <div class="quiz-progress">
+                <span id="quizProgress">Question 1 / 5</span>
+                <div class="quiz-progress-bar"><div id="quizProgressFill" style="width:20%"></div></div>
+              </div>
+              <p class="quiz-question" id="quizQuestion">Ready to start the quiz?</p>
+              <div class="quiz-options" id="quizOptions">
+                <button class="quiz-opt-btn" onclick="startQuiz()">✨ Start Quiz!</button>
+              </div>
+              <div class="quiz-result" id="quizResult"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== GAME 3: GIFT SURPRISE ===== -->
+        <div class="game-card" id="game-gift">
+          <div class="game-card-header">
+            <span class="game-icon">🎁</span>
+            <h3 class="game-title">Surprise Gift!</h3>
+            <p class="game-desc">Shake the gift box to reveal a surprise message for Seher! 🎀</p>
+          </div>
+          <div class="game-body">
+            <div class="gift-box-container">
+              <div class="gift-box" id="giftBox" onclick="shakeGift()">
+                <div class="gift-lid">
+                  <div class="gift-bow">🎀</div>
+                </div>
+                <div class="gift-body-wrap">
+                  <div class="gift-ribbon-h"></div>
+                  <div class="gift-ribbon-v"></div>
+                </div>
+              </div>
+              <p class="gift-hint" id="giftHint">👆 Click the gift box!</p>
+              <div class="gift-message-reveal" id="giftReveal"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
   <footer class="footer">
     <div class="footer-bg"></div>
     <div class="footer-content">
@@ -284,10 +366,10 @@
         <img src="images/seher3.jpg" alt="Seher 3" />
         <img src="images/seher4.png" alt="Seher 4" />
       </div>
-      <div class="footer-name">Seher 💖</div>
+      <div class="footer-name">Seher ✨</div>
       <div class="footer-date">4th July, 2026 • Turning 19</div>
-      <div class="footer-emojis">🎈 🎂 🎀 🌸 💕 🎊 ✨ 👑 🎉</div>
-      <p class="footer-tagline">Forever loved, forever celebrated.</p>
+      <div class="footer-emojis">🎈 🎂 🎀 🌸 💛 🎊 ✨ 👑 🎉</div>
+      <p class="footer-tagline">Forever cherished, forever celebrated.</p>
     </div>
   </footer>
 

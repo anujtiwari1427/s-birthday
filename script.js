@@ -392,3 +392,298 @@ window.addEventListener('load', () => {
 
 console.log('%c🎂 Happy Birthday Seher! 🎂', 'font-size: 24px; color: #ff4d7d; font-weight: bold;');
 console.log('%c✨ Wishing you an amazing 19th! ✨', 'font-size: 16px; color: #f5c842;');
+
+// ────────────────────────────────────────────────────────────
+// GAMES ZONE
+// ────────────────────────────────────────────────────────────
+
+/* ======== GAME 1: BALLOON POP ======== */
+let balloonGameActive = false;
+let balloonScoreVal = 0;
+let balloonTimeLeft = 15;
+let balloonInterval = null;
+let balloonSpawnInterval = null;
+
+const balloonEmojis = ['🎈', '🟣', '🔴', '🟡', '🔵', '🟠', '🟢', '💜', '❤️', '💛'];
+const balloonColors = [
+  'rgba(255,77,125,0.85)', 'rgba(155,93,229,0.85)', 'rgba(245,200,66,0.85)',
+  'rgba(77,200,255,0.85)', 'rgba(255,140,0,0.85)', 'rgba(39,201,63,0.85)',
+  'rgba(255,105,180,0.85)', 'rgba(100,149,237,0.85)',
+];
+
+function startBalloonGame() {
+  if (balloonGameActive) return;
+  balloonGameActive = true;
+  balloonScoreVal = 0;
+  balloonTimeLeft = 15;
+
+  const arena = document.getElementById('balloonArena');
+  const scoreEl = document.getElementById('balloonScore');
+  const timerEl = document.getElementById('balloonTimer');
+  const startBtn = document.getElementById('balloonStartBtn');
+
+  arena.innerHTML = '';
+  scoreEl.textContent = '0';
+  timerEl.textContent = '15';
+  startBtn.textContent = '🎉 Playing…';
+  startBtn.disabled = true;
+
+  // Spawn balloons
+  balloonSpawnInterval = setInterval(() => {
+    spawnBalloon(arena, scoreEl);
+  }, 600);
+
+  // Countdown timer
+  balloonInterval = setInterval(() => {
+    balloonTimeLeft--;
+    timerEl.textContent = balloonTimeLeft;
+    if (balloonTimeLeft <= 0) {
+      endBalloonGame(arena, scoreEl, timerEl, startBtn);
+    }
+  }, 1000);
+}
+
+function spawnBalloon(arena, scoreEl) {
+  if (!balloonGameActive) return;
+  const balloon = document.createElement('div');
+  balloon.className = 'balloon';
+  balloon.style.left = Math.random() * (arena.clientWidth - 55) + 'px';
+  balloon.style.top = Math.random() * (arena.clientHeight - 65) + 'px';
+  balloon.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+  balloon.style.animationDelay = Math.random() * 2 + 's';
+  balloon.style.animationDuration = (2 + Math.random() * 2) + 's';
+  balloon.textContent = '🎈';
+
+  balloon.addEventListener('click', () => {
+    if (!balloonGameActive) return;
+    balloonScoreVal++;
+    scoreEl.textContent = balloonScoreVal;
+    // Pop burst
+    const burst = document.createElement('div');
+    burst.className = 'balloon-pop-burst';
+    burst.style.left = balloon.style.left;
+    burst.style.top = balloon.style.top;
+    burst.textContent = '✨';
+    arena.appendChild(burst);
+    setTimeout(() => burst.remove(), 500);
+    balloon.remove();
+  });
+
+  arena.appendChild(balloon);
+  // Auto remove after 3s
+  setTimeout(() => { if (balloon.parentNode) balloon.remove(); }, 3000);
+}
+
+function endBalloonGame(arena, scoreEl, timerEl, startBtn) {
+  balloonGameActive = false;
+  clearInterval(balloonInterval);
+  clearInterval(balloonSpawnInterval);
+  arena.innerHTML = '';
+  timerEl.textContent = '0';
+
+  let msg = balloonScoreVal >= 20 ? '🏆 Balloon Master!' :
+            balloonScoreVal >= 10 ? '🎉 Great Popping!' :
+            balloonScoreVal >= 5  ? '😊 Nice Try!' : '🎈 Keep Practicing!';
+
+  const result = document.createElement('div');
+  result.style.cssText = 'text-align:center;padding:20px;color:#f5c842;font-size:1.1rem;font-weight:600;';
+  result.innerHTML = `${msg}<br><span style="font-size:0.9rem;color:rgba(255,255,255,0.6)">You popped ${balloonScoreVal} balloons!</span>`;
+  arena.appendChild(result);
+
+  startBtn.textContent = '🎈 Play Again!';
+  startBtn.disabled = false;
+}
+
+/* ======== GAME 2: BIRTHDAY QUIZ ======== */
+const quizData = [
+  {
+    q: '🎂 Which country first popularized birthday cakes with candles?',
+    opts: ['Germany', 'France', 'England', 'Italy'],
+    ans: 0
+  },
+  {
+    q: '🎵 "Happy Birthday to You" is one of the most recognized songs in which language?',
+    opts: ['French', 'Spanish', 'English', 'German'],
+    ans: 2
+  },
+  {
+    q: '🎈 What does blowing out ALL birthday candles in one breath traditionally mean?',
+    opts: ['Bad luck', 'Your wish comes true', 'You get two wishes', 'Nothing special'],
+    ans: 1
+  },
+  {
+    q: '🌸 Seher is turning 19 in which month?',
+    opts: ['June', 'August', 'July', 'May'],
+    ans: 2
+  },
+  {
+    q: '🎁 What is the traditional gift for a 19th birthday?',
+    opts: ['Gold', 'Silver', 'Anything from the heart', 'Diamond'],
+    ans: 2
+  },
+];
+
+let quizIndex = 0;
+let quizScore = 0;
+let quizStarted = false;
+let quizAnswered = false;
+
+function startQuiz() {
+  quizIndex = 0;
+  quizScore = 0;
+  quizStarted = true;
+  quizAnswered = false;
+  document.getElementById('quizResult').textContent = '';
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = quizData[quizIndex];
+  const progressEl = document.getElementById('quizProgress');
+  const fillEl = document.getElementById('quizProgressFill');
+  const questionEl = document.getElementById('quizQuestion');
+  const optionsEl = document.getElementById('quizOptions');
+  const resultEl = document.getElementById('quizResult');
+
+  progressEl.textContent = `Question ${quizIndex + 1} / ${quizData.length}`;
+  fillEl.style.width = `${((quizIndex + 1) / quizData.length) * 100}%`;
+  questionEl.textContent = q.q;
+  resultEl.textContent = '';
+  quizAnswered = false;
+
+  optionsEl.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt-btn';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(i, btn);
+    optionsEl.appendChild(btn);
+  });
+}
+
+function answerQuiz(chosen, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizData[quizIndex];
+  const optionsEl = document.getElementById('quizOptions');
+  const resultEl = document.getElementById('quizResult');
+  const allBtns = optionsEl.querySelectorAll('.quiz-opt-btn');
+
+  // Highlight answers
+  allBtns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add('correct');
+    else if (i === chosen && chosen !== q.ans) b.classList.add('wrong');
+  });
+
+  if (chosen === q.ans) {
+    quizScore++;
+    resultEl.textContent = '✅ Correct! +1 point';
+    resultEl.style.color = '#27c93f';
+  } else {
+    resultEl.textContent = `❌ Oops! Correct: ${q.opts[q.ans]}`;
+    resultEl.style.color = '#ff4d4d';
+  }
+
+  // Next question or finish
+  setTimeout(() => {
+    quizIndex++;
+    if (quizIndex < quizData.length) {
+      showQuestion();
+    } else {
+      finishQuiz();
+    }
+  }, 1400);
+}
+
+function finishQuiz() {
+  const questionEl = document.getElementById('quizQuestion');
+  const optionsEl = document.getElementById('quizOptions');
+  const resultEl = document.getElementById('quizResult');
+  const progressEl = document.getElementById('quizProgress');
+  const fillEl = document.getElementById('quizProgressFill');
+
+  fillEl.style.width = '100%';
+  progressEl.textContent = 'Quiz Complete! 🎊';
+  const perc = Math.round((quizScore / quizData.length) * 100);
+  const medal = perc === 100 ? '🏆' : perc >= 60 ? '🥈' : '🥉';
+
+  questionEl.textContent = `${medal} You scored ${quizScore} / ${quizData.length}!`;
+  resultEl.textContent = perc === 100 ? '🌟 Perfect Score! You\'re a Birthday Expert!' :
+                         perc >= 60  ? '🎉 Well done! Great birthday knowledge!' :
+                                       '😊 Keep practicing! Birthdays are fun!';
+  resultEl.style.color = '#f5c842';
+
+  optionsEl.innerHTML = '';
+  const retryBtn = document.createElement('button');
+  retryBtn.className = 'quiz-opt-btn';
+  retryBtn.style.textAlign = 'center';
+  retryBtn.textContent = '🔄 Play Again';
+  retryBtn.onclick = startQuiz;
+  optionsEl.appendChild(retryBtn);
+}
+
+/* ======== GAME 3: SURPRISE GIFT ======== */
+const surpriseMessages = [
+  '🌸 Seher, you bring so much joy and light into everyone\'s life. Happy 19th Birthday, superstar! 🌟',
+  '💫 May this year be your most adventurous, colorful, and joyful one yet! You deserve it all! 🎊',
+  '🎀 True friendship is rare and precious — and you are one in a million, Seher! Cherish every moment! 💛',
+  '✨ Nineteen years of being absolutely amazing. The world is so much better with you in it! 🌍💕',
+  '🎂 May all your dreams take flight this year. Keep smiling, keep shining — the best is yet to come! 🚀',
+  '🌺 Here\'s to new beginnings, wild adventures, and unforgettable memories! Happy Birthday, Seher! 🥳',
+];
+
+let giftClickCount = 0;
+let giftOpened = false;
+
+function shakeGift() {
+  const giftBox = document.getElementById('giftBox');
+  const giftHint = document.getElementById('giftHint');
+  const giftReveal = document.getElementById('giftReveal');
+
+  if (giftOpened) {
+    // Reset
+    giftOpened = false;
+    giftClickCount = 0;
+    giftBox.querySelector('.gift-lid').classList.remove('open');
+    giftReveal.style.display = 'none';
+    giftHint.textContent = '👆 Click the gift box!';
+    return;
+  }
+
+  giftBox.classList.add('shaking');
+  setTimeout(() => giftBox.classList.remove('shaking'), 500);
+  giftClickCount++;
+
+  if (giftClickCount === 1) {
+    giftHint.textContent = '🎁 Click again to shake more...';
+  } else if (giftClickCount === 2) {
+    giftHint.textContent = '🤩 One more time...!';
+  } else if (giftClickCount >= 3) {
+    // Open the gift!
+    giftOpened = true;
+    giftBox.querySelector('.gift-lid').classList.add('open');
+    const msg = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
+    giftReveal.textContent = msg;
+    giftReveal.style.display = 'block';
+    giftHint.textContent = '🎁 Click again to get a new surprise!';
+    // Launch mini confetti burst
+    launchMiniBurst();
+  }
+}
+
+function launchMiniBurst() {
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => {
+      if (typeof createConfettiParticle === 'function') {
+        const p = createConfettiParticle();
+        p.x = window.innerWidth / 2 + (Math.random() - 0.5) * 200;
+        p.y = window.innerHeight / 2;
+        p.speedX = (Math.random() - 0.5) * 10;
+        p.speedY = -(Math.random() * 8 + 2);
+        confettiParticles.push(p);
+      }
+    }, i * 20);
+  }
+}
+
