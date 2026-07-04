@@ -3,12 +3,58 @@
    ============================================================ */
 
 // ────────────────────────────────────────────────────────────
+// 0. BACKGROUND MUSIC
+// ────────────────────────────────────────────────────────────
+let musicPlaying = false;
+
+function toggleMusic() {
+  const audio   = document.getElementById('bgMusic');
+  const icon    = document.getElementById('musicIcon');
+  const label   = document.getElementById('musicLabel');
+  const wrap    = document.getElementById('musicBtnWrap');
+
+  if (musicPlaying) {
+    audio.pause();
+    icon.textContent  = '🎵';
+    icon.classList.remove('playing');
+    label.textContent = 'Play Music';
+    wrap.classList.add('muted');
+    musicPlaying = false;
+  } else {
+    audio.volume = 0.5;
+    audio.play().catch(() => {});
+    icon.textContent  = '🎶';
+    icon.classList.add('playing');
+    label.textContent = 'Pause Music';
+    wrap.classList.remove('muted');
+    musicPlaying = true;
+  }
+}
+
+// Auto-play on first user interaction anywhere on the page
+document.addEventListener('click', function startOnFirstClick() {
+  if (!musicPlaying) {
+    const audio = document.getElementById('bgMusic');
+    audio.volume = 0.5;
+    audio.play().then(() => {
+      musicPlaying = true;
+      document.getElementById('musicIcon').textContent  = '🎶';
+      document.getElementById('musicIcon').classList.add('playing');
+      document.getElementById('musicLabel').textContent = 'Pause Music';
+      document.getElementById('musicBtnWrap').classList.remove('muted');
+    }).catch(() => {});
+  }
+  document.removeEventListener('click', startOnFirstClick);
+}, { once: true });
+
+// ────────────────────────────────────────────────────────────
 // 1. CONFETTI SYSTEM
 // ────────────────────────────────────────────────────────────
 const confettiCanvas = document.getElementById('confettiCanvas');
 const ctx = confettiCanvas.getContext('2d');
 let confettiParticles = [];
 let confettiActive = true;
+
 
 function resizeCanvas() {
   confettiCanvas.width = window.innerWidth;
@@ -404,8 +450,8 @@ let balloonTimeLeft = 15;
 let balloonInterval = null;
 let balloonSpawnInterval = null;
 
-const balloonEmojis = ['🎈', '🟣', '🔴', '🟡', '🔵', '🟠', '🟢', '💜', '❤️', '💛'];
-const balloonColors = [
+const gameEmojis = ['🎈', '🟣', '🔴', '🟡', '🔵', '🟠', '🟢', '💜', '❤️', '💛'];
+const gameColors = [
   'rgba(255,77,125,0.85)', 'rgba(155,93,229,0.85)', 'rgba(245,200,66,0.85)',
   'rgba(77,200,255,0.85)', 'rgba(255,140,0,0.85)', 'rgba(39,201,63,0.85)',
   'rgba(255,105,180,0.85)', 'rgba(100,149,237,0.85)',
@@ -449,7 +495,7 @@ function spawnBalloon(arena, scoreEl) {
   balloon.className = 'balloon';
   balloon.style.left = Math.random() * (arena.clientWidth - 55) + 'px';
   balloon.style.top = Math.random() * (arena.clientHeight - 65) + 'px';
-  balloon.style.background = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+  balloon.style.background = gameColors[Math.floor(Math.random() * gameColors.length)];
   balloon.style.animationDelay = Math.random() * 2 + 's';
   balloon.style.animationDuration = (2 + Math.random() * 2) + 's';
   balloon.textContent = '🎈';

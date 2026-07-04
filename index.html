@@ -12,6 +12,20 @@
 </head>
 <body>
 
+  <!-- ======================== BACKGROUND MUSIC ======================== -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="HAPPY BIRTHDAY TO YOU  PIANO INSTRUMENTAL  BEST HAPPY BITHDAY MUSIC 2021 - Benote.mp3" type="audio/mpeg" />
+  </audio>
+
+  <!-- Floating Music Toggle Button -->
+  <div class="music-btn-wrap" id="musicBtnWrap">
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Toggle Music">
+      <span class="music-icon" id="musicIcon">🎵</span>
+      <span class="music-label" id="musicLabel">Play Music</span>
+    </button>
+    <div class="music-ripple"></div>
+  </div>
+
   <!-- Confetti Canvas -->
   <canvas id="confettiCanvas"></canvas>
 

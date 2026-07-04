@@ -53,6 +53,69 @@ a { text-decoration: none; color: inherit; }
 }
 
 /* ============================================================
+   FLOATING MUSIC BUTTON
+   ============================================================ */
+.music-btn-wrap {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.music-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, var(--pink-mid), var(--purple));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-full);
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(201,24,74,0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  z-index: 2;
+}
+.music-btn:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 12px 40px rgba(201,24,74,0.6);
+}
+.music-icon {
+  font-size: 1.2rem;
+  display: inline-block;
+}
+.music-icon.playing {
+  animation: musicSpin 2s linear infinite;
+}
+@keyframes musicSpin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.music-ripple {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255,77,125,0.3);
+  animation: musicRipple 2s ease-out infinite;
+  z-index: 1;
+}
+@keyframes musicRipple {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.music-btn-wrap.muted .music-ripple {
+  animation: none;
+  opacity: 0;
+}
+
+/* ============================================================
    BALLOONS
    ============================================================ */
 .balloons-container {
